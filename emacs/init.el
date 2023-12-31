@@ -1,6 +1,23 @@
-(package-initialize)
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
+(package-initialize)
 (add-to-list 'load-path "~/.emacs.d/lisp/")
+(add-to-list 'exec-path "~/dev/zls/zig-out/bin") ;; Zls path
+(require 'use-package)
+(require 'lsp-mode)
+
+(use-package lsp-mode
+  :init
+  ;; set prefix for lsp-command-keymap (few alternatives - "C-l", "C-c l")
+  (setq lsp-keymap-prefix "C-c l")
+  :hook (;; replace XXX-mode with concrete major-mode(e. g. python-mode)
+         (zig-mode . lsp-deferred)
+         ;; if you want which-key integration
+         (lsp-mode . lsp-enable-which-key-integration))
+  :commands lsp-deferred)
+(use-package lsp-ui :commands lsp-ui-mode)
+(use-package lsp-treemacs :commands lsp-treemacs-errors-list)
+
+(global-set-key (kbd "C-c z") 'zig-test-buffer)
 
 ;; Keep in mind that all of these packages are loaded at startup, even if you
 ;; do not configure them.
@@ -10,7 +27,7 @@
 	telega ;; Pull telega server, docker pull zevlg/telega-server:latest
 	python-mode
 	))
-
+(setq lsp-modeline-diagnostics-enable t)
 (setq telega-use-docker t)
 (setq inhibit-startup-screen t)
 (menu-bar-mode 0)
@@ -40,3 +57,7 @@
           (lambda ()
             (define-key yaml-mode-map "\C-m" 'newline-and-indent)))
 
+(use-package elpy
+  :ensure t
+  :init
+  (elpy-enable))
