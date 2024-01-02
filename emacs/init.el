@@ -23,7 +23,7 @@
   (setq lsp-ui-doc-delay 1.0))
 (use-package zig-mode
   :ensure t
-  :ensure-system-package ("~/dev/zls" . "git clone https://github.com/zigtools/zls && cd ~/dev/zls && zig build -Doptimize=ReleaseSafe"))
+  :ensure-system-package ("~/dev/zls" . "git clone https://github.com/zigtools/zls ~/dev/zls && cd ~/dev/zls && zig build -Doptimize=ReleaseSafe"))
 (use-package python-mode
   :ensure t)
 ;;(use-package elpy
