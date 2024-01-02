@@ -1,3 +1,4 @@
+(require 'package)
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
 (package-initialize)
 (add-to-list 'load-path "~/.emacs.d/lisp/")
@@ -5,6 +6,9 @@
 (require 'use-package)
 
 ;; Packages
+(use-package use-package-ensure-system-package
+  :ensure t)
+
 (use-package lsp-mode
   :ensure t
   :init
@@ -15,27 +19,38 @@
          ;; if you want which-key integration
          (lsp-mode . lsp-enable-which-key-integration))
   :commands lsp-deferred)
+
 (use-package lsp-ui
   :ensure t
   :commands lsp-ui-mode
   :init
   (setq lsp-ui-doc-show-with-cursor t)
   (setq lsp-ui-doc-delay 1.0))
+
 (use-package zig-mode
   :ensure t
   :ensure-system-package ("~/dev/zls" . "git clone https://github.com/zigtools/zls ~/dev/zls && cd ~/dev/zls && zig build -Doptimize=ReleaseSafe"))
+
 (use-package python-mode
+  :ensure t
+  )
+
+(use-package flycheck
   :ensure t)
-;;(use-package elpy
-;;  :ensure nil
-;;  :init
-;;  (elpy-enable))
+
+(use-package elpy
+  :ensure t
+  :init
+  (elpy-enable)
+  (add-hook 'elpy-mode-hook 'flycheck-mode))
+
 (use-package yaml-mode
   :init
   (add-hook 'yaml-mode-hook
           (lambda ()
             (define-key yaml-mode-map "\C-m" 'newline-and-indent)))
   )
+
 (use-package telega
   :ensure nil
   :init
@@ -55,6 +70,7 @@
 (setq inhibit-startup-screen t)
 (menu-bar-mode 0)
 (tool-bar-mode 0)
+(global-linum-mode t)
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -82,4 +98,4 @@
 ;; Auto Mode Alist
 (add-to-list 'auto-mode-alist '("\\.yml\\'" . yaml-mode))
 (add-to-list 'auto-mode-alist '("\\.zig\\'" . zig-mode))
-(add-to-list 'auto-mode-alist '("\\.py\\'" . python-mode))
+;; (add-to-list 'auto-mode-alist '("\\.py\\'" . python-mode))
