@@ -15,9 +15,13 @@
          (lsp-mode . lsp-enable-which-key-integration))
   :commands lsp-deferred)
 (use-package lsp-ui :commands lsp-ui-mode)
-(use-package lsp-treemacs :commands lsp-treemacs-errors-list)
+;; (use-package lsp-treemacs :commands lsp-treemacs-errors-list)
+(setq lsp-ui-doc-show-with-cursor t)
+(setq lsp-ui-doc-delay 1.0)
 
 (global-set-key (kbd "C-c z") 'zig-test-buffer)
+(global-set-key (kbd "C-c f") 'find-name-dired)
+(global-set-key (kbd "C-c d") 'dired)
 
 ;; Keep in mind that all of these packages are loaded at startup, even if you
 ;; do not configure them.
@@ -27,7 +31,7 @@
 	telega ;; Pull telega server, docker pull zevlg/telega-server:latest
 	python-mode
 	))
-(setq lsp-modeline-diagnostics-enable t)
+;; (setq lsp-modeline-diagnostics-enable t)
 (setq telega-use-docker t)
 (setq inhibit-startup-screen t)
 (menu-bar-mode 0)
