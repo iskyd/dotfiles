@@ -3,9 +3,10 @@
 (add-to-list 'load-path "~/.emacs.d/lisp/")
 (add-to-list 'exec-path "~/dev/zls/zig-out/bin") ;; Zls path
 (require 'use-package)
-(require 'lsp-mode)
 
+;; Packages
 (use-package lsp-mode
+  :ensure t
   :init
   ;; set prefix for lsp-command-keymap (few alternatives - "C-l", "C-c l")
   (setq lsp-keymap-prefix "C-c l")
@@ -14,25 +15,43 @@
          ;; if you want which-key integration
          (lsp-mode . lsp-enable-which-key-integration))
   :commands lsp-deferred)
-(use-package lsp-ui :commands lsp-ui-mode)
-;; (use-package lsp-treemacs :commands lsp-treemacs-errors-list)
-(setq lsp-ui-doc-show-with-cursor t)
-(setq lsp-ui-doc-delay 1.0)
-
-(global-set-key (kbd "C-c z") 'zig-test-buffer)
-(global-set-key (kbd "C-c f") 'find-name-dired)
-(global-set-key (kbd "C-c d") 'dired)
+(use-package lsp-ui
+  :ensure t
+  :commands lsp-ui-mode
+  :init
+  (setq lsp-ui-doc-show-with-cursor t)
+  (setq lsp-ui-doc-delay 1.0))
+(use-package zig-mode
+  :ensure t
+  :ensure-system-package ("~/dev/zls" . "git clone https://github.com/zigtools/zls && cd ~/dev/zls && zig build -Doptimize=ReleaseSafe"))
+(use-package python-mode
+  :ensure t)
+;;(use-package elpy
+;;  :ensure nil
+;;  :init
+;;  (elpy-enable))
+(use-package yaml-mode
+  :init
+  (add-hook 'yaml-mode-hook
+          (lambda ()
+            (define-key yaml-mode-map "\C-m" 'newline-and-indent)))
+  )
+(use-package telega
+  :ensure nil
+  :init
+  (setq telega-use-docker t))
 
 ;; Keep in mind that all of these packages are loaded at startup, even if you
 ;; do not configure them.
 (setq package-selected-packages
       '(zig-mode
-        magit
-	telega ;; Pull telega server, docker pull zevlg/telega-server:latest
 	python-mode
+	magit
+	lsp-mode
 	))
-;; (setq lsp-modeline-diagnostics-enable t)
-(setq telega-use-docker t)
+
+
+;; Emacs config
 (setq inhibit-startup-screen t)
 (menu-bar-mode 0)
 (tool-bar-mode 0)
@@ -55,13 +74,12 @@
 
 (setq custom-file (make-temp-file "emacs-custom"))
 
-(require 'yaml-mode)
+;; Keys
+(global-set-key (kbd "C-c z") 'zig-test-buffer)
+(global-set-key (kbd "C-c f") 'find-name-dired)
+(global-set-key (kbd "C-c d") 'dired)
+ 
+;; Auto Mode Alist
 (add-to-list 'auto-mode-alist '("\\.yml\\'" . yaml-mode))
-(add-hook 'yaml-mode-hook
-          (lambda ()
-            (define-key yaml-mode-map "\C-m" 'newline-and-indent)))
-
-(use-package elpy
-  :ensure t
-  :init
-  (elpy-enable))
+(add-to-list 'auto-mode-alist '("\\.zig\\'" . zig-mode))
+(add-to-list 'auto-mode-alist '("\\.py\\'" . python-mode))
