@@ -26,8 +26,12 @@
   :ensure t
   :commands lsp-ui-mode
   :init
+  (setq lsp-ui-doc-show-with-mouse nil)
   (setq lsp-ui-doc-show-with-cursor t)
   (setq lsp-ui-doc-delay 1.0))
+
+(use-package lsp-treemacs
+  :ensure t)
 
 (use-package zig-mode
   :ensure t
@@ -107,8 +111,10 @@
 (global-set-key (kbd "C-c z") 'zig-test-buffer)
 (global-set-key (kbd "C-c f") 'find-name-dired)
 (global-set-key (kbd "C-c d") 'dired)
- 
+(global-set-key (kbd "C-c g") 'grep-find)
+(global-set-key (kbd "C-c t") 'lsp-treemacs-symbols)
+
 ;; Auto Mode Alist
 (add-to-list 'auto-mode-alist '("\\.yml\\'" . yaml-mode))
 (add-to-list 'auto-mode-alist '("\\.zig\\'" . zig-mode))
-;; (add-to-list 'auto-mode-alist '("\\.py\\'" . python-mode))
+(add-to-list 'auto-mode-alist '("\\.py\\'" . python-mode))
