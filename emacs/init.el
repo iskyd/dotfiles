@@ -3,6 +3,7 @@
 (package-initialize)
 (add-to-list 'load-path "~/.emacs.d/lisp/")
 (add-to-list 'exec-path "~/dev/zls/zig-out/bin") ;; Zls path
+(add-to-list 'exec-path "~/.local/bin")
 (require 'use-package)
 
 ;; Packages
@@ -16,6 +17,7 @@
   (setq lsp-keymap-prefix "C-c l")
   :hook (;; replace XXX-mode with concrete major-mode(e. g. python-mode)
          (zig-mode . lsp-deferred)
+	 (python-mode . lsp-deferred)
          ;; if you want which-key integration
          (lsp-mode . lsp-enable-which-key-integration))
   :commands lsp-deferred)
@@ -33,16 +35,27 @@
 
 (use-package python-mode
   :ensure t
+  :init
+  (setq lsp-pylsp-server-command "~/.local/bin/pylsp")
   )
 
 (use-package flycheck
   :ensure t)
 
-(use-package elpy
+;;(use-package elpy
+;;  :ensure t
+;;  :init
+;;  (elpy-enable)
+;;  (add-hook 'elpy-mode-hook 'flycheck-mode)
+;;  (setq elpy-rpc-virtualenv-path 'current))
+
+;; To run python inside a container using elpy we're using direnv and https://github.com/snbuback/container-env
+(use-package direnv
   :ensure t
-  :init
-  (elpy-enable)
-  (add-hook 'elpy-mode-hook 'flycheck-mode))
+  :config
+  (direnv-mode)
+  :ensure-system-package
+  (direnv))
 
 (use-package yaml-mode
   :init
