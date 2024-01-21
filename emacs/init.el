@@ -10,6 +10,25 @@
   (interactive)
   (zig--run-cmd "test" (file-local-name (buffer-file-name)) "--main-mod-path" projectile-project-root "-O" zig-test-optimization-mode))
 
+(defun kill-other-buffers ()
+    "Kill all other buffers."
+    (interactive)
+    (mapc 'kill-buffer 
+          (delq (current-buffer) 
+                (remove-if-not 'buffer-file-name (buffer-list)))))
+
+;; Reload current buffer
+(defun revert-buffer-no-confirm ()
+    "Revert buffer without confirmation."
+    (interactive)
+    (revert-buffer :ignore-auto :noconfirm))
+
+(defun kill-all-buffers ()
+  "Kill all buffers, leaving only the *scratch* buffer."
+  (interactive)
+  (mapc 'kill-buffer (buffer-list))
+  (switch-to-buffer "*scratch*"))
+
 ;; Packages
 (use-package use-package-ensure-system-package
   :ensure t)
@@ -18,7 +37,7 @@
   :ensure t
   :init
   (projectile-mode +1)
-  (setq projectile-project-search-path '("~/dev/" "/opt/projects/Conio/"))
+  (setq projectile-project-search-path '("~/dev/" "/opt/projects/Conio/" "/opt/projects/Conio/clients"))
   :bind (:map projectile-mode-map
               ("s-p" . projectile-command-map)
               ("C-c p" . projectile-command-map))
@@ -49,10 +68,11 @@
 (use-package lsp-treemacs
   :ensure t)
 
-(use-package dap-mode
-  :ensure t
-  :config
-  (require 'dap-lldb)) ;; M-x dap-cpptools-setup
+;; (use-package dap-mode
+;;   :ensure t
+;;   :config
+;;   (require 'dap-lldb)) ;; M-x dap-cpptools-setup
+;;
 
 (use-package zig-mode
   :ensure t
@@ -64,11 +84,6 @@
 (use-package multiple-cursors
   :ensure t)
 
-;;(use-package envrc
-;;   :ensure t
-;;   :config
-;;   (envrc-global-mode))
-;;
 (use-package python-mode
   :ensure t
   :preface 
@@ -83,65 +98,34 @@
 	(setq lsp-pylsp-server-command "~/.local/bin/pylsp")
 	(lsp-workspace-restart))
       )
-  ))
+    ))
   :init
-  ;;(setq lsp-pylsp-server-command "/opt/projects/Conio/bitscrooge/venv/bin/pylsp")
-  (setq lsp-pylsp-server-command "~/.local/bin/pylsp")
   (add-hook 'projectile-after-switch-project-hook #'projectile-set-lsp-venv)
   )
 
-;;(use-package virtualenvwrapper
-;;  :ensure t
-;;  ;;:config
-;;  ;;(pyenv-mode t)
-;;  :preface
-;;  (defun projectile-pyenv-mode-set ()
-;;  "Set pyenv version matching project name."
-;;  (let ((project (projectile-project-name)))
-;;    (setq venv-location (concat projetc "venv/"))
-;;    ))
-;;  :init
-;;  (add-hook 'projectile-after-switch-project-hook 'projectile-pyenv-mode-set)
-;;  )
-;;  
-;; To run python inside a container using lsp-mode we're using direnv and https://github.com/snbuback/container-env
-;;(use-package direnv
-;;  :ensure t
-;;  :init
-;;  (setq direnv-always-show-summary t)
-;;  :config
-;;  (direnv-mode)
-;;  :ensure-system-package
-;;  (direnv))
-
 (use-package yaml-mode
+  :ensure t
   :init
   (add-hook 'yaml-mode-hook
           (lambda ()
             (define-key yaml-mode-map "\C-m" 'newline-and-indent)))
   )
 
-(use-package telega
-  :ensure nil
-  :init
-  (setq telega-use-docker t))
+(use-package json-mode
+  :ensure t
+  )
 
-;; Keep in mind that all of these packages are loaded at startup, even if you
-;; do not configure them.
-;;(setq package-selected-packages
-;;      '(zig-mode
-;;	python-mode
-;;	magit
-;;	lsp-mode
-;;	flycheck
-;;	))
-;;
+;;(use-package telega
+;;  :ensure nil
+;;  :init
+;;  (setq telega-use-docker t))
+
 
 ;; Emacs config
 (setq inhibit-startup-screen t)
 (menu-bar-mode 0)
 (tool-bar-mode 0)
-(global-linum-mode t)
+(global-display-line-numbers-mode)
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -168,6 +152,9 @@
 (global-set-key (kbd "C-c g") 'grep-find)
 (global-set-key (kbd "C-c t") 'lsp-treemacs-symbols)
 (global-set-key (kbd "C-c m") 'mc/edit-lines)
+(global-set-key (kbd "C-x C-b") 'ibuffer)
+(global-set-key (kbd "C-c k") 'kill-all-buffers)
+(global-set-key (kbd "C-c r") 'revert-buffer-no-confirm)
 
 ;; Auto Mode Alist
 (add-to-list 'auto-mode-alist '("\\.yml\\'" . yaml-mode))
