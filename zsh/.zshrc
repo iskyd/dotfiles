@@ -73,6 +73,7 @@ ZSH_THEME="robbyrussell"
 plugins=(
 	git
 	poetry
+	history-substring-search
 )
 
 source $ZSH/oh-my-zsh.sh
