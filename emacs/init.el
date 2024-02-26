@@ -5,11 +5,6 @@
 (add-to-list 'exec-path "~/dev/zls/zig-out/bin") ;; Zls path
 (require 'use-package)
 
-(defun zig-test-buffer-2 ()
-  "Test buffer using `zig test`."
-  (interactive)
-  (zig--run-cmd "test" (file-local-name (buffer-file-name)) "--main-mod-path" projectile-project-root "-O" zig-test-optimization-mode))
-
 (defun kill-other-buffers ()
     "Kill all other buffers."
     (interactive)
@@ -115,6 +110,12 @@
   :ensure t
   )
 
+(use-package xclip
+  :ensure t
+  :init
+  (setq xclip-mode 1)
+  )
+
 ;;(use-package telega
 ;;  :ensure nil
 ;;  :init
@@ -125,6 +126,7 @@
 (setq inhibit-startup-screen t)
 (menu-bar-mode 0)
 (tool-bar-mode 0)
+(setq display-line-numbers-type 'relative) 
 (global-display-line-numbers-mode)
 
 (custom-set-variables
