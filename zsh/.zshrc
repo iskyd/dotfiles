@@ -95,7 +95,7 @@ source $ZSH/oh-my-zsh.sh
 if [[ -n $SSH_CONNECTION ]]; then
    export EDITOR='vim'
 else
-   export EDITOR='emacs'
+   export EDITOR='emacs -nw -q --load ~/.emacs.d/init_editor.el'
 fi
 
 # Compilation flags
