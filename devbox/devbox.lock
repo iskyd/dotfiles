@@ -1,0 +1,149 @@
+{
+  "lockfile_version": "1",
+  "packages": {
+    "emacs29@latest": {
+      "last_modified": "2023-12-04T12:43:35Z",
+      "resolved": "github:NixOS/nixpkgs/09ec6a0881e1a36c29d67497693a67a16f4da573#emacs29",
+      "source": "devbox-search",
+      "version": "29.1",
+      "systems": {
+        "aarch64-darwin": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/1bc6jv51sbkx87h2ispx36p320y0pcbk-emacs-29.1",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/1bc6jv51sbkx87h2ispx36p320y0pcbk-emacs-29.1"
+        },
+        "aarch64-linux": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/rbawn3ar3kphvy3f43x60jfi11ihr012-emacs-29.1",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/rbawn3ar3kphvy3f43x60jfi11ihr012-emacs-29.1"
+        },
+        "x86_64-darwin": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/yv4i9kx6g92smc95qy9k8gmdnba2cbdj-emacs-29.1",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/yv4i9kx6g92smc95qy9k8gmdnba2cbdj-emacs-29.1"
+        },
+        "x86_64-linux": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/gb4gjmnr4gw3xpc2xlmxgw8m5d3q3634-emacs-29.1",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/gb4gjmnr4gw3xpc2xlmxgw8m5d3q3634-emacs-29.1"
+        }
+      }
+    },
+    "gping@latest": {
+      "last_modified": "2024-03-22T11:26:23Z",
+      "resolved": "github:NixOS/nixpkgs/a3ed7406349a9335cb4c2a71369b697cecd9d351#gping",
+      "source": "devbox-search",
+      "version": "1.16.1",
+      "systems": {
+        "aarch64-darwin": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/nv952p5y1ckzrdnd9va4ablxa1w30j75-gping-1.16.1",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/nv952p5y1ckzrdnd9va4ablxa1w30j75-gping-1.16.1"
+        },
+        "aarch64-linux": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/j8s7ndlhxa37z99xg76i9i8767r7i0qy-gping-1.16.1",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/j8s7ndlhxa37z99xg76i9i8767r7i0qy-gping-1.16.1"
+        },
+        "x86_64-darwin": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/ar85zcn0s79y9g814c2rnvldm6dz1rpc-gping-1.16.1",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/ar85zcn0s79y9g814c2rnvldm6dz1rpc-gping-1.16.1"
+        },
+        "x86_64-linux": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/qf5h029ybjywwd0avi9khphwcn10a4jq-gping-1.16.1",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/qf5h029ybjywwd0avi9khphwcn10a4jq-gping-1.16.1"
+        }
+      }
+    },
+    "ripgrep@latest": {
+      "last_modified": "2024-03-22T11:26:23Z",
+      "resolved": "github:NixOS/nixpkgs/a3ed7406349a9335cb4c2a71369b697cecd9d351#ripgrep",
+      "source": "devbox-search",
+      "version": "14.1.0",
+      "systems": {
+        "aarch64-darwin": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/4fwvymj5jdwz1k7ygq9mvng4psqr18l8-ripgrep-14.1.0",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/4fwvymj5jdwz1k7ygq9mvng4psqr18l8-ripgrep-14.1.0"
+        },
+        "aarch64-linux": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/jrmnnjmbmshl6cpn3pap06q7z9qz1fbb-ripgrep-14.1.0",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/jrmnnjmbmshl6cpn3pap06q7z9qz1fbb-ripgrep-14.1.0"
+        },
+        "x86_64-darwin": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/zrar96flx58j9n2ncs7fdxg70qn7b8pd-ripgrep-14.1.0",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/zrar96flx58j9n2ncs7fdxg70qn7b8pd-ripgrep-14.1.0"
+        },
+        "x86_64-linux": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/63d409ifkiy1sqmcgiig4dh0pxr0r3zn-ripgrep-14.1.0",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/63d409ifkiy1sqmcgiig4dh0pxr0r3zn-ripgrep-14.1.0"
+        }
+      }
+    }
+  }
+}
