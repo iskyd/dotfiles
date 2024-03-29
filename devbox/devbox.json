@@ -3,7 +3,9 @@
   "packages": [
     "ripgrep@latest",
     "emacs29@latest",
-    "gping@latest"
+    "gping@latest",
+    "alacritty@latest",
+    "tmux@latest"
   ],
   "shell": {
     "init_hook": [

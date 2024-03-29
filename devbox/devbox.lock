@@ -1,6 +1,70 @@
 {
   "lockfile_version": "1",
   "packages": {
+    "alacritty@latest": {
+      "last_modified": "2024-03-25T21:25:22Z",
+      "resolved": "github:NixOS/nixpkgs/07262b18b97000d16a4bdb003418bd2fb067a932#alacritty",
+      "source": "devbox-search",
+      "version": "0.13.2",
+      "systems": {
+        "aarch64-darwin": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/mmlalvqdrybkvnrvj43jzyx7pnv19k3z-alacritty-0.13.2",
+              "default": true
+            },
+            {
+              "name": "terminfo",
+              "path": "/nix/store/7ddhqa0arxf9bayj0rcfr1m1rpljpqip-alacritty-0.13.2-terminfo"
+            }
+          ],
+          "store_path": "/nix/store/mmlalvqdrybkvnrvj43jzyx7pnv19k3z-alacritty-0.13.2"
+        },
+        "aarch64-linux": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/nxy1mb55m41hzl0l0ydcx78gril9vvcw-alacritty-0.13.2",
+              "default": true
+            },
+            {
+              "name": "terminfo",
+              "path": "/nix/store/b8a6j1lai7x7m7pf36x6mfrr8zpdfap5-alacritty-0.13.2-terminfo"
+            }
+          ],
+          "store_path": "/nix/store/nxy1mb55m41hzl0l0ydcx78gril9vvcw-alacritty-0.13.2"
+        },
+        "x86_64-darwin": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/wcizkgqp4qq0xswd734kjjhs4xkd3h9g-alacritty-0.13.2",
+              "default": true
+            },
+            {
+              "name": "terminfo",
+              "path": "/nix/store/rdnwv4a9a32llh00scd23yy50lns5zl7-alacritty-0.13.2-terminfo"
+            }
+          ],
+          "store_path": "/nix/store/wcizkgqp4qq0xswd734kjjhs4xkd3h9g-alacritty-0.13.2"
+        },
+        "x86_64-linux": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/gjr1g2wq4ywryk2b3g3lzxaxxa7c8i1z-alacritty-0.13.2",
+              "default": true
+            },
+            {
+              "name": "terminfo",
+              "path": "/nix/store/29j7mspn1iq6zbqxr63qhpg9lc3bxxpy-alacritty-0.13.2-terminfo"
+            }
+          ],
+          "store_path": "/nix/store/gjr1g2wq4ywryk2b3g3lzxaxxa7c8i1z-alacritty-0.13.2"
+        }
+      }
+    },
     "emacs29@latest": {
       "last_modified": "2023-12-04T12:43:35Z",
       "resolved": "github:NixOS/nixpkgs/09ec6a0881e1a36c29d67497693a67a16f4da573#emacs29",
@@ -142,6 +206,74 @@
             }
           ],
           "store_path": "/nix/store/63d409ifkiy1sqmcgiig4dh0pxr0r3zn-ripgrep-14.1.0"
+        }
+      }
+    },
+    "tmux@latest": {
+      "last_modified": "2024-03-22T11:26:23Z",
+      "resolved": "github:NixOS/nixpkgs/a3ed7406349a9335cb4c2a71369b697cecd9d351#tmux",
+      "source": "devbox-search",
+      "version": "3.4",
+      "systems": {
+        "aarch64-darwin": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/9wxjglyr4vnhb2331ar980n2giy951l7-tmux-3.4",
+              "default": true
+            },
+            {
+              "name": "man",
+              "path": "/nix/store/kh4wqs0d3bxichjrznki2hdlmrs07ay7-tmux-3.4-man",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/9wxjglyr4vnhb2331ar980n2giy951l7-tmux-3.4"
+        },
+        "aarch64-linux": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/jjbfmic4zas304grqf8ms706zrrh3q5i-tmux-3.4",
+              "default": true
+            },
+            {
+              "name": "man",
+              "path": "/nix/store/2a4jhzcwdl9w16m0a09v8958pxmlz826-tmux-3.4-man",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/jjbfmic4zas304grqf8ms706zrrh3q5i-tmux-3.4"
+        },
+        "x86_64-darwin": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/6mbr808w83nz67b2h5k18w94qv9rxrzf-tmux-3.4",
+              "default": true
+            },
+            {
+              "name": "man",
+              "path": "/nix/store/dww237ppm6g97m67r126a3scy1fwxmdd-tmux-3.4-man",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/6mbr808w83nz67b2h5k18w94qv9rxrzf-tmux-3.4"
+        },
+        "x86_64-linux": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/rdl929zi0pcjqkssvzp44wxybbfwmx0f-tmux-3.4",
+              "default": true
+            },
+            {
+              "name": "man",
+              "path": "/nix/store/x8gcbgyvrggbzwm757zq052byvqfbhk9-tmux-3.4-man",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/rdl929zi0pcjqkssvzp44wxybbfwmx0f-tmux-3.4"
         }
       }
     }
