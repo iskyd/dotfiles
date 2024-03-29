@@ -2,8 +2,8 @@
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
 (package-initialize)
 (add-to-list 'load-path "~/.emacs.d/lisp/")
-(add-to-list 'exec-path "~/dev/zls/zig-out/bin") ;; Zls path
 (require 'use-package)
+
 
 (defun kill-other-buffers ()
     "Kill all other buffers."
@@ -48,36 +48,25 @@
          (zig-mode . lsp-deferred)
 	 (python-mode . lsp-deferred)
 	 (c-mode . lsp-deferred)
+	 (go-mode . lsp-deferred)
          ;; if you want which-key integration
          (lsp-mode . lsp-enable-which-key-integration))
   :commands lsp-deferred)
 
-(use-package lsp-ui
-  :ensure t
-  :commands lsp-ui-mode
-  :init
-  (setq lsp-ui-doc-show-with-mouse nil)
-  (setq lsp-ui-doc-show-with-cursor t)
-  (setq lsp-ui-doc-delay 1.0))
-
 (use-package lsp-treemacs
   :ensure t)
 
-;; (use-package dap-mode
-;;   :ensure t
-;;   :config
-;;   (require 'dap-lldb)) ;; M-x dap-cpptools-setup
-;;
-
 (use-package zig-mode
   :ensure t
-  :ensure-system-package ("~/dev/zls" . "git clone https://github.com/zigtools/zls ~/dev/zls && cd ~/dev/zls && zig build -Doptimize=ReleaseSafe"))
+  )
 
 (use-package flycheck
-  :ensure t)
+  :ensure t
+  )
 
 (use-package multiple-cursors
-  :ensure t)
+  :ensure t
+  )
 
 (use-package python-mode
   :ensure t
@@ -110,17 +99,15 @@
   :ensure t
   )
 
+(use-package go-mode
+  :ensure t
+  )
+
 (use-package xclip
   :ensure t
   :init
   (setq xclip-mode 1)
   )
-
-;;(use-package telega
-;;  :ensure nil
-;;  :init
-;;  (setq telega-use-docker t))
-
 
 ;; Emacs config
 (setq inhibit-startup-screen t)
@@ -144,11 +131,10 @@
  )
 
 (set-face-attribute 'default nil :height 200)
-
+(add-to-list 'default-frame-alist '(alpha 97)) ;; doesnt work on emacs29 and X
 (setq custom-file (make-temp-file "emacs-custom"))
 
 ;; Keys
-(global-set-key (kbd "C-c z") 'zig-test-buffer-2)
 (global-set-key (kbd "C-c f") 'find-name-dired)
 (global-set-key (kbd "C-c d") 'dired)
 (global-set-key (kbd "C-c g") 'grep-find)
@@ -157,8 +143,13 @@
 (global-set-key (kbd "C-x C-b") 'ibuffer)
 (global-set-key (kbd "C-c k") 'kill-all-buffers)
 (global-set-key (kbd "C-c r") 'revert-buffer-no-confirm)
+(global-set-key (kbd "C-c c") 'compile)
 
 ;; Auto Mode Alist
 (add-to-list 'auto-mode-alist '("\\.yml\\'" . yaml-mode))
 (add-to-list 'auto-mode-alist '("\\.zig\\'" . zig-mode))
 (add-to-list 'auto-mode-alist '("\\.py\\'" . python-mode))
+(add-to-list 'auto-mode-alist '("\\.go\\'" . go-mode))
+
+;; Use a on dired
+(put 'dired-find-alternate-file 'disabled nil)
