@@ -53,7 +53,8 @@
 	 (go-mode . lsp-deferred)
 	 (haskell-mode . lsp-deferred)
          ;; if you want which-key integration
-         (lsp-mode . lsp-enable-which-key-integration))
+         ;; (lsp-mode . lsp-enable-which-key-integration)
+	 )
   :commands lsp-deferred)
 
 (use-package lsp-treemacs
