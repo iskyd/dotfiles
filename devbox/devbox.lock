@@ -161,6 +161,54 @@
         }
       }
     },
+    "pass@latest": {
+      "last_modified": "2024-03-23T22:08:43Z",
+      "resolved": "github:NixOS/nixpkgs/e1d501922fd7351da4200e1275dfcf5faaad1220#pass",
+      "source": "devbox-search",
+      "version": "1.7.4",
+      "systems": {
+        "aarch64-darwin": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/nfbqr1yv2kcarkrd9ipzj3cipd0x9jgw-password-store-1.7.4",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/nfbqr1yv2kcarkrd9ipzj3cipd0x9jgw-password-store-1.7.4"
+        },
+        "aarch64-linux": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/1j3d2pixq9wvj62yajcf3gn26dz8xwxi-password-store-1.7.4",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/1j3d2pixq9wvj62yajcf3gn26dz8xwxi-password-store-1.7.4"
+        },
+        "x86_64-darwin": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/cxxp620d1md5amccks4kf1028g780fsm-password-store-1.7.4",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/cxxp620d1md5amccks4kf1028g780fsm-password-store-1.7.4"
+        },
+        "x86_64-linux": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/1f6a24hq63a699y2jgp7v5fcxgiddpsq-password-store-1.7.4",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/1f6a24hq63a699y2jgp7v5fcxgiddpsq-password-store-1.7.4"
+        }
+      }
+    },
     "ripgrep@latest": {
       "last_modified": "2024-03-22T11:26:23Z",
       "resolved": "github:NixOS/nixpkgs/a3ed7406349a9335cb4c2a71369b697cecd9d351#ripgrep",
