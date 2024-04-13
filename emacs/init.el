@@ -44,11 +44,14 @@
   :init
   ;; set prefix for lsp-command-keymap (few alternatives - "C-l", "C-c l")
   (setq lsp-keymap-prefix "C-c l")
+  (setq lsp-enable-file-watchers nil)
+  (setq lsp-file-watch-threshold 2500)
   :hook (;; replace XXX-mode with concrete major-mode(e. g. python-mode)
          (zig-mode . lsp-deferred)
 	 (python-mode . lsp-deferred)
 	 (c-mode . lsp-deferred)
 	 (go-mode . lsp-deferred)
+	 (haskell-mode . lsp-deferred)
          ;; if you want which-key integration
          (lsp-mode . lsp-enable-which-key-integration))
   :commands lsp-deferred)
@@ -68,23 +71,12 @@
   :ensure t
   )
 
-(use-package python-mode
+(use-package lsp-pyright
   :ensure t
-  :preface 
-  (defun projectile-set-lsp-venv ()
-  "Set pyenv version matching project name."
-  (let ((project (projectile-project-name)))
-    (if (file-exists-p (concat (projectile-project-root) "venv/bin/pylsp"))
-	(progn
-	  (setq lsp-pylsp-server-command (concat (projectile-project-root) "venv/bin/pylsp"))
-	  (lsp-workspace-restart))
-      (progn
-	(setq lsp-pylsp-server-command "~/.local/bin/pylsp")
-	(lsp-workspace-restart))
-      )
-    ))
-  :init
-  (add-hook 'projectile-after-switch-project-hook #'projectile-set-lsp-venv)
+  :hook (python-mode . (lambda ()
+			 (require 'lsp-pyright)
+			 (setq lsp-pyright-venv-path "$VENV_DIR")
+			 (lsp-deferred)))
   )
 
 (use-package yaml-mode
@@ -103,11 +95,16 @@
   :ensure t
   )
 
+(use-package haskell-mode
+  :ensure t
+  )
+
 (use-package xclip
   :ensure t
   :init
   (setq xclip-mode 1)
   )
+
 
 ;; Emacs config
 (setq inhibit-startup-screen t)
@@ -133,6 +130,7 @@
 (set-face-attribute 'default nil :height 200)
 (add-to-list 'default-frame-alist '(alpha 97)) ;; doesnt work on emacs29 and X
 (setq custom-file (make-temp-file "emacs-custom"))
+(setq backup-directory-alist '(("." . "~/emacsbackup")))
 
 ;; Keys
 (global-set-key (kbd "C-c f") 'find-name-dired)
