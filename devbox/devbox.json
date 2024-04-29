@@ -9,7 +9,8 @@
     "pass@latest",
     "zellij@latest",
     "dysk@latest",
-    "neofetch@latest"
+    "neofetch@latest",
+    "fzf@latest"
   ],
   "shell": {
     "init_hook": [
