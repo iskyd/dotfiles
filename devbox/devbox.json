@@ -6,7 +6,10 @@
     "gping@latest",
     "alacritty@latest",
     "tmux@latest",
-    "pass@latest"
+    "pass@latest",
+    "zellij@latest",
+    "dysk@latest",
+    "neofetch@latest"
   ],
   "shell": {
     "init_hook": [
