@@ -33,6 +33,12 @@
   :init
   (projectile-mode +1)
   (setq projectile-project-search-path '("~/dev/" "/opt/projects/Conio/" "/opt/projects/Conio/clients"))
+  (projectile-register-project-type 'zig '("build.zig")
+                                  :project-file "build.zig"
+                                  :compile "zig build"
+                                  :test "zig build test"
+				  :run "zig build run"
+                                  )
   :bind (:map projectile-mode-map
               ("s-p" . projectile-command-map)
               ("C-c p" . projectile-command-map))
@@ -62,6 +68,11 @@
 
 (use-package zig-mode
   :ensure t
+  :init
+  (add-hook 'zig-mode-hook
+          (lambda ()
+            (setq compile-command "zig build"))
+  )
   )
 
 (use-package flycheck
@@ -106,6 +117,10 @@
   (setq xclip-mode 1)
   )
 
+(use-package markdown-mode
+  :ensure t
+  :mode ("README\\.md\\'" . gfm-mode)
+  :init (setq markdown-command "multimarkdown"))
 
 ;; Emacs config
 (setq inhibit-startup-screen t)
@@ -146,9 +161,6 @@
 
 ;; Auto Mode Alist
 (add-to-list 'auto-mode-alist '("\\.yml\\'" . yaml-mode))
-(add-to-list 'auto-mode-alist '("\\.zig\\'" . zig-mode))
-(add-to-list 'auto-mode-alist '("\\.py\\'" . python-mode))
-(add-to-list 'auto-mode-alist '("\\.go\\'" . go-mode))
 
 ;; Use a on dired
 (put 'dired-find-alternate-file 'disabled nil)
