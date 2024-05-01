@@ -7,10 +7,10 @@
     "alacritty@latest",
     "tmux@latest",
     "pass@latest",
-    "zellij@latest",
     "dysk@latest",
     "neofetch@latest",
-    "fzf@latest"
+    "fzf@latest",
+    "qutebrowser@latest"
   ],
   "shell": {
     "init_hook": [
