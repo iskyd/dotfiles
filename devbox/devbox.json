@@ -8,9 +8,9 @@
     "tmux@latest",
     "pass@latest",
     "dysk@latest",
-    "neofetch@latest",
     "fzf@latest",
-    "qutebrowser@latest"
+    "qutebrowser@latest",
+    "fastfetch@latest"
   ],
   "shell": {
     "init_hook": [
