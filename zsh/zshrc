@@ -46,6 +46,17 @@ export CDPATH="$CDPATH:/opt/projects/Conio:/home/mattia/dev"
 # Aliases
 alias bcat="batcat --paging=never"
 alias e="emacs -nw"
+alias f="find . -type f | fzy"
+alias starts="sudo systemctl start"
+alias restarts="sudo systemctl restart"
+alias stops="sudo systemctl stop"
+alias reloads="sudo systemctl reload"
+alias stats="sudo systemctl status"
+alias kills="sudo systemctl kill"
+alias copy="rsync -ah --progress"
+alias ports="lsof -i -P -n"
+alias sudo="sudo " # This allows the usage of sudo `alias`
+
 
 eval "$(direnv hook zsh)"
 
