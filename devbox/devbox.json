@@ -4,13 +4,14 @@
     "ripgrep@latest",
     "emacs29@latest",
     "gping@latest",
-    "alacritty@latest",
     "tmux@latest",
     "pass@latest",
     "dysk@latest",
     "fzf@latest",
+    "fastfetch@latest",
     "qutebrowser@latest",
-    "fastfetch@latest"
+    "ulauncher@latest",
+    "fzy@latest"
   ],
   "shell": {
     "init_hook": [
