@@ -1,0 +1,7 @@
+[user]
+	email = iskyd@proton.me
+	name = iskyd
+	signinkey = 991C76DCAA073547
+
+[commit]
+	gpgsign = true

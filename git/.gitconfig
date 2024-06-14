@@ -1,0 +1,12 @@
+[includeIf "gitdir:~/dev/"]
+    path = ~/.gitconfig-oss
+[includeIf "gitdir:/opt/projects/Conio/"]
+    path = ~/.gitconfig-conio
+
+[safe]
+	directory = *
+[url "git@bitbucket.org:"]
+	insteadOf = https://bitbucket.org
+[rerere]
+	enabled = true
+	autoUpdate = true
