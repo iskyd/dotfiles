@@ -55,6 +55,7 @@ alias stats="sudo systemctl status"
 alias kills="sudo systemctl kill"
 alias copy="rsync -ah --progress"
 alias ports="lsof -i -P -n"
+alias gg="git graph"
 alias sudo="sudo " # This allows the usage of sudo `alias`
 
 
