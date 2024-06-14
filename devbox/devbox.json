@@ -11,7 +11,9 @@
     "fastfetch@latest",
     "qutebrowser@latest",
     "ulauncher@latest",
-    "fzy@latest"
+    "fzy@latest",
+    "git-graph@latest",
+    "git@latest"
   ],
   "shell": {
     "init_hook": [
