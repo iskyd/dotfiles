@@ -13,7 +13,9 @@
     "ulauncher@latest",
     "fzy@latest",
     "git-graph@latest",
-    "git@latest"
+    "git@latest",
+    "vesktop@latest",
+    "mermaid-cli@latest"
   ],
   "shell": {
     "init_hook": [
