@@ -1,0 +1,10 @@
+font-size = 18.0
+background-opacity = 0.95
+
+fullscreen = false
+working-directory = inherit
+
+shell-integration = zsh
+
+window-height = 1000
+window-width = 1000
