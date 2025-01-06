@@ -136,6 +136,12 @@
                                     :test "zig build test"
                                     :run "zig build run"
                                     )
+  (projectile-register-project-type 'rust '("Cargo.toml")
+                                    :project-file "Cargo.toml"
+                                    :compile "rustc"
+                                    :test "rustc"
+                                    :run "rustc"
+                                    )
   :bind (:map projectile-mode-map
               ("s-p" . projectile-command-map)
               ("C-c p" . projectile-command-map))
@@ -160,6 +166,7 @@
          (python-mode . lsp-deferred)
          (c-mode . lsp-deferred)
          (go-mode . lsp-deferred)
+	 (rust-mode . lsp-deferred)
          ;; if you want which-key integration
          ;; (lsp-mode . lsp-enable-which-key-integration)
          )
@@ -193,6 +200,16 @@
             (lambda ()
               (setq compile-command "zig build"))
             )
+  )
+
+(use-package rust-mode
+  :ensure t
+  :init
+  (add-hook 'rust-mode-hook
+            (lambda () (setq indent-tabs-mode nil)))
+  (add-hook 'rust-mode-hook
+          (lambda () (prettify-symbols-mode)))
+  (setq rust-format-on-save t)
   )
 
 (use-package flycheck
