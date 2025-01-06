@@ -28,7 +28,27 @@
     pkgs.fzf
     pkgs.fzy
     pkgs.pass
+    pkgs.multimarkdown
+    pkgs.lazydocker
+    pkgs.difftastic
+    pkgs.direnv
+    pkgs.eza
+    pkgs.zoxide
+    pkgs.jujutsu
+    pkgs.yazi
   ];
+
+  programs.jujutsu = {
+    enable = true;
+    settings = {
+      user.name = "iskyd";
+      user.email = "iskyd@proton.me";
+      signing.git = "991C76DCAA073547";
+      signing.key = "991C76DCAA073547";
+      signing.backend = "gpg";
+      signing.sign-all = true;
+    };
+  };
 
   programs.git = {
 	  enable = true;
