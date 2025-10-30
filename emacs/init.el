@@ -6,6 +6,10 @@
 (add-to-list 'load-path "~/.emacs.d/lisp/")
 (require 'use-package)
 
+;; Packages
+;;(use-package use-package-ensure-system-package
+;;  :ensure t)
+
 (defun meow-setup ()
   (setq meow-cheatsheet-layout meow-cheatsheet-layout-qwerty)
   (meow-motion-overwrite-define-key
@@ -112,9 +116,6 @@
   (mapc 'kill-buffer (buffer-list))
   (switch-to-buffer "*scratch*"))
 
-;; Packages
-(use-package use-package-ensure-system-package
-  :ensure t)
 
 (use-package exec-path-from-shell
   :ensure t)
@@ -261,6 +262,9 @@
   :ensure t
   )
 
+(use-package just-mode
+  :ensure t)
+
 (use-package doom-modeline
   :ensure t
   :init
@@ -279,6 +283,23 @@
 (use-package nerd-icons
   :ensure t
   )
+
+;;(use-package envrc
+;;  :hook (after-init . envrc-global-mode))
+
+;;(use-package highlight-indent-guides
+;;  :ensure t
+;;  :init
+;;  (setq highlight-indent-guides-method 'character)
+;;  (setq highlight-indent-guides-responsive 'top)
+;;  (add-hook 'prog-mode-hook 'highlight-indent-guides-mode)
+;;  )
+
+;;(use-package indent-guide
+;;  :ensure t
+;;  :init
+;;  (setq indent-guide-global-mode t)
+;;  )
 
 ;; Emacs config
 (setq inhibit-startup-screen t)
