@@ -1,16 +1,39 @@
+(setq gc-cons-threshold (* 50 1000 1000)) ; 50mb
+
 (require 'package)
 (require 'image)
 
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
 (package-initialize)
 (add-to-list 'load-path "~/.emacs.d/lisp/")
+
+(unless (package-installed-p 'use-package)
+  (package-refresh-contents)
+  (package-install 'use-package))
+
 (require 'use-package)
+(setq use-package-always-defer t)
+(setq use-package-always-ensure t)
 
-;; Packages
-;;(use-package use-package-ensure-system-package
-;;  :ensure t)
+(use-package envrc
+  :demand t
+  :config
+  (envrc-global-mode))
 
+(use-package savehist
+  :demand t
+  :config
+  (savehist-mode))
+
+(use-package exec-path-from-shell
+  :if (memq window-system '(mac ns x))
+  :demand t
+  :config
+  (exec-path-from-shell-initialize))
+
+;; Modal Editing - Meow
 (defun meow-setup ()
+  "Configure Meow modal editing keybindings."
   (setq meow-cheatsheet-layout meow-cheatsheet-layout-qwerty)
   (meow-motion-overwrite-define-key
    '("j" . meow-next)
@@ -97,11 +120,155 @@
    '("<escape>" . ignore)))
 
 (use-package meow
-  :ensure t
+  :demand t
   :config
   (meow-setup)
-  (meow-global-mode 1)
-  )
+  (meow-global-mode 1))
+
+(use-package projectile
+  :demand t
+  :init
+  (setq projectile-project-search-path '("~/dev/" "/opt/projects/Conio/" "/opt/projects/Conio/clients"))
+  :config
+  (projectile-mode +1)
+  
+  (projectile-register-project-type 'zig '("build.zig")
+                                    :project-file "build.zig"
+                                    :compile "zig build"
+                                    :test "zig build test"
+                                    :run "zig build run")
+  (projectile-register-project-type 'rust '("Cargo.toml")
+                                    :project-file "Cargo.toml"
+                                    :compile "rustc"
+                                    :test "rustc"
+                                    :run "rustc")
+  :bind (:map projectile-mode-map
+              ("s-p" . projectile-command-map)
+              ("C-c p" . projectile-command-map)))
+
+(use-package magit)
+
+(use-package company
+  :hook (after-init . global-company-mode))
+
+(use-package flycheck)
+
+(use-package multiple-cursors)
+
+(use-package xclip
+  :demand t
+  :config
+  (xclip-mode 1))
+
+(use-package lsp-mode
+  :ensure t
+  :init
+  (setq lsp-keymap-prefix "C-c l"
+        lsp-enable-file-watchers nil
+        lsp-file-watch-threshold 2500
+        lsp-completion-enable t
+	lsp-enable-snippet nil
+	lsp-inlay-hint-enable t)
+  :hook ((zig-mode python-mode c-mode go-mode rust-mode) . lsp-deferred)
+  :commands lsp-deferred)
+
+(use-package lsp-treemacs)
+
+(use-package lsp-pyright
+  :hook (python-mode . (lambda ()
+                         (require 'lsp-pyright)
+                         (setq lsp-pyright-venv-path "$VENV_DIR"
+			       lsp-pyright-type-checking-mode "strict")
+                         (lsp-deferred))))
+
+(use-package dap-mode
+  :after lsp-mode
+  :config
+  (dap-mode 1)
+  (dap-ui-mode 1)
+  (dap-tooltip-mode 1)
+  (tooltip-mode 1)
+  (dap-ui-controls-mode 1)
+  (setq dap-print-io t)
+  (require 'dap-dlv-go))
+
+(use-package zig-mode
+  :mode "\\.zig\\'"
+  :hook (zig-mode . (lambda ()
+                      (setq compile-command "zig build"))))
+
+(use-package rust-mode
+  :mode "\\.rs\\'"
+  :hook ((rust-mode . (lambda () 
+                        (setq indent-tabs-mode nil
+                              lsp-rust-analyzer-cargo-watch-command "clippy"
+                              lsp-rust-analyzer-server-display-inlay-hints t
+			      lsp-rust-analyzer-cargo-extra-env nil)))
+         (rust-mode . prettify-symbols-mode))
+  :init
+  (setq rust-format-on-save t))
+
+(use-package go-mode
+  :mode "\\.go\\'"
+  :hook (before-save . gofmt-before-save)
+  :init
+  (setq lsp-go-use-gofumpt t
+        lsp-go-analyses '((shadow . t)
+                          (simplifycompositelit . :json-false))))
+
+(use-package yaml-mode
+  :mode "\\.ya?ml\\'"
+  :hook (yaml-mode . (lambda ()
+                       (define-key yaml-mode-map "\C-m" 'newline-and-indent))))
+
+(use-package json-mode
+  :mode "\\.json\\'")
+
+(use-package markdown-mode
+  :mode (("README\\.md\\'" . gfm-mode)
+         ("\\.md\\'" . markdown-mode))
+  :init
+  (setq markdown-command "multimarkdown"))
+
+(use-package mermaid-mode
+  :mode "\\.mmd\\'")
+
+(use-package just-mode
+  :mode "\\(?:J\\|j\\)ustfile\\'")
+
+(use-package nix-mode
+  :mode "\\.nix\\'")
+
+(use-package doom-modeline
+  :demand t
+  :init
+  (setq doom-modeline-project-detection 'projectile
+        doom-modeline-icon t
+        doom-modeline-major-mode-icon t
+        doom-modeline-major-mode-color-icon t
+        doom-modeline-env-version t)
+  :config
+  (doom-modeline-mode 1))
+
+(use-package nerd-icons)
+
+
+;;;; Editor Behaviour
+(setq inhibit-startup-screen t)
+(menu-bar-mode -1)
+(tool-bar-mode -1)
+(scroll-bar-mode -1)
+
+(setq display-line-numbers-type 'relative)
+(global-display-line-numbers-mode 1)
+
+;; Theme and appearance
+(load-theme 'wombat t)
+(set-face-attribute 'default nil :height 100)
+(add-to-list 'default-frame-alist '(alpha . 97))
+
+(setq custom-file (make-temp-file "emacs-custom"))
+(setq backup-directory-alist '(("." . "~/emacsbackup")))
 
 ;; Reload current buffer
 (defun revert-buffer-no-confirm ()
@@ -116,219 +283,7 @@
   (mapc 'kill-buffer (buffer-list))
   (switch-to-buffer "*scratch*"))
 
-
-(use-package exec-path-from-shell
-  :ensure t)
-(when (memq window-system '(mac ns x))
-    (exec-path-from-shell-initialize))
-
-(use-package savehist
-  :init
-  (savehist-mode))
-
-(use-package projectile
-  :ensure t
-  :init
-  (projectile-mode +1)
-  (setq projectile-project-search-path '("~/dev/" "/opt/projects/Conio/" "/opt/projects/Conio/clients"))
-  (projectile-register-project-type 'zig '("build.zig")
-                                    :project-file "build.zig"
-                                    :compile "zig build"
-                                    :test "zig build test"
-                                    :run "zig build run"
-                                    )
-  (projectile-register-project-type 'rust '("Cargo.toml")
-                                    :project-file "Cargo.toml"
-                                    :compile "rustc"
-                                    :test "rustc"
-                                    :run "rustc"
-                                    )
-  :bind (:map projectile-mode-map
-              ("s-p" . projectile-command-map)
-              ("C-c p" . projectile-command-map))
-  :hook
-  (after-init . projectile-global-mode))
-
-(use-package magit
-  :ensure t
-  )
-
-(use-package lsp-mode
-  :ensure t
-  :init
-  ;; set prefix for lsp-command-keymap (few alternatives - "C-l", "C-c l")
-  (setq lsp-keymap-prefix "C-c l")
-  (setq lsp-enable-file-watchers nil)
-  (setq lsp-file-watch-threshold 2500)
-  (setq lsp-completion-enable t)
-  (setq lsp-enable-snippet nil)
-  :hook (;; replace XXX-mode with concrete major-mode(e. g. python-mode)
-         (zig-mode . lsp-deferred)
-         (python-mode . lsp-deferred)
-         (c-mode . lsp-deferred)
-         (go-mode . lsp-deferred)
-	 (rust-mode . lsp-deferred)
-         ;; if you want which-key integration
-         ;; (lsp-mode . lsp-enable-which-key-integration)
-         )
-  :commands lsp-deferred)
-
-(use-package lsp-treemacs
-  :ensure t)
-
-(use-package dap-mode
-  :ensure t  
-  :config
-  (dap-mode 1)
-  (dap-ui-mode 1)
-  (dap-tooltip-mode 1)
-  (tooltip-mode 1)
-  (dap-ui-controls-mode 1)
-  (setq dap-print-io t)
-  (require 'dap-dlv-go)
-  )
-
-(use-package company
-  :ensure t
-  :init
-  (add-hook 'after-init-hook 'global-company-mode)
-  )
-
-(use-package zig-mode
-  :ensure t
-  :init
-  (add-hook 'zig-mode-hook
-            (lambda ()
-              (setq compile-command "zig build"))
-            )
-  )
-
-(use-package rust-mode
-  :ensure t
-  :init
-  (add-hook 'rust-mode-hook
-            (lambda () (setq indent-tabs-mode nil)))
-  (add-hook 'rust-mode-hook
-          (lambda () (prettify-symbols-mode)))
-  (setq rust-format-on-save t)
-  )
-
-(use-package flycheck
-  :ensure t
-  )
-
-(use-package multiple-cursors
-  :ensure t
-  )
-
-(use-package lsp-pyright
-  :ensure t
-  :hook (python-mode . (lambda ()
-                         (require 'lsp-pyright)
-                         (setq lsp-pyright-venv-path "$VENV_DIR")
-                         (lsp-deferred)))
-  )
-
-(use-package yaml-mode
-  :ensure t
-  :init
-  (add-hook 'yaml-mode-hook
-            (lambda ()
-              (define-key yaml-mode-map "\C-m" 'newline-and-indent)))
-  )
-
-(use-package json-mode
-  :ensure t
-  )
-
-(use-package go-mode
-  :ensure t
-  :init
-  (add-hook 'before-save-hook 'gofmt-before-save)
-  )
-
-(use-package xclip
-  :ensure t
-  :init
-  (setq xclip-mode 1)
-  )
-
-(use-package markdown-mode
-  :ensure t
-  :mode ("README\\.md\\'" . gfm-mode)
-  :init (setq markdown-command "multimarkdown"))
-
-(use-package mermaid-mode
-  :ensure t
-  )
-
-(use-package just-mode
-  :ensure t)
-
-(use-package doom-modeline
-  :ensure t
-  :init
-  (doom-modeline-mode 1)
-  (setq doom-modeline-project-detection 'projectile)
-  (setq doom-modeline-icon t)
-  (setq doom-modeline-major-mode-icon t)
-  (setq doom-modeline-major-mode-color-icon t)
-  (setq doom-modeline-env-version t)
-  )
-
-(use-package nix-mode
-  :ensure t
-  :mode "\\.nix\\'")
-
-(use-package nerd-icons
-  :ensure t
-  )
-
-;;(use-package envrc
-;;  :hook (after-init . envrc-global-mode))
-
-;;(use-package highlight-indent-guides
-;;  :ensure t
-;;  :init
-;;  (setq highlight-indent-guides-method 'character)
-;;  (setq highlight-indent-guides-responsive 'top)
-;;  (add-hook 'prog-mode-hook 'highlight-indent-guides-mode)
-;;  )
-
-;;(use-package indent-guide
-;;  :ensure t
-;;  :init
-;;  (setq indent-guide-global-mode t)
-;;  )
-
-;; Emacs config
-(setq inhibit-startup-screen t)
-(menu-bar-mode 0)
-(tool-bar-mode 0)
-(scroll-bar-mode 0)
-(setq display-line-numbers-type 'relative)
-(global-display-line-numbers-mode)
-
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(custom-enabled-themes '(wombat))
- '(ispell-dictionary nil))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
-
-(set-face-attribute 'default nil :height 100)
-(add-to-list 'default-frame-alist '(alpha 97)) ;; doesnt work on emacs29 and X
-(setq custom-file (make-temp-file "emacs-custom"))
-(setq backup-directory-alist '(("." . "~/emacsbackup")))
-
-;; Keys
+;; Key binding
 (global-set-key (kbd "C-c f") 'find-name-dired)
 (global-set-key (kbd "C-c d") 'dired)
 (global-set-key (kbd "C-c g") 'grep-find)
@@ -339,9 +294,11 @@
 (global-set-key (kbd "C-c r") 'revert-buffer-no-confirm)
 (global-set-key (kbd "C-c c") 'compile)
 
-;; Auto Mode Alist
-
-(add-to-list 'auto-mode-alist '("\\.yml\\'" . yaml-mode))
-
-;; Use a on dired
+;; Enable 'a' key in dired to open in same buffer
 (put 'dired-find-alternate-file 'disabled nil)
+
+(add-hook 'emacs-startup-hook
+          (lambda ()
+            (setq gc-cons-threshold (* 2 1000 1000)))) ; 2mb after startup
+
+(provide 'init)
