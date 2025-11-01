@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, pkgs, lib, ... }:
 
 {
   # Home Manager needs a bit of information about you and the paths it should
@@ -17,9 +17,8 @@
 
   # The home.packages option allows you to install Nix packages into your
   # environment.
-  home.packages = [
+  home.packages = with pkgs; [
     pkgs.gping
-    # pkgs.emacs29
     pkgs.dysk
     pkgs.git-graph
     pkgs.ripgrep
@@ -36,7 +35,25 @@
     pkgs.zoxide
     pkgs.jujutsu
     pkgs.yazi
+    pkgs.sqlite
+    pkgs.helix
+    pkgs.nushell
+    pkgs.lldb
+    pkgs.just
+    pkgs.bruno
   ];
+
+  programs.emacs = {
+    enable = true;
+  };
+
+  services.emacs = {
+    enable = true;
+    client.enable = true;
+    # defaultEditor = true;
+    socketActivation.enable = false;
+    startWithUserSession = true;
+  };
 
   programs.jujutsu = {
     enable = true;
@@ -62,6 +79,7 @@
       rerere.autoUpdate = true;
       "url \"git@bitbucket.org:\"".insteadOf = "https://bitbucket.org";
       # "includeIf \"gitdir:/opt/projects/Conio/\"".path = "~/.config/.gitconfig-conio";
+      push.autoSetupRemote = true;
     };
 
     aliases = {
@@ -119,8 +137,12 @@
   #  /etc/profiles/per-user/mattia/etc/profile.d/hm-session-vars.sh
   #
   home.sessionVariables = {
-    EDITOR = "emacs -nw -q --load ~/.emacs.d/init_editor.el";
+    EDITOR = "${lib.getExe' pkgs.emacs "emacs"} -nw -q";
+    GOPRIVATE = "bitbucket.org/squadrone";
+    BEEP = "paplay /usr/share/sounds/gnome/default/alerts/bark.ogg";
   };
+
+  
 
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
