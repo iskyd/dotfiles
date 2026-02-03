@@ -181,6 +181,42 @@
 			       lsp-pyright-type-checking-mode "strict")
                          (lsp-deferred))))
 
+;; Conio python test runner
+(defun python-get-project-name ()
+  "Extract project name from projectile root path."
+  (let ((root (projectile-project-root)))
+    (unless root (user-error "No projectile project"))
+    (file-name-nondirectory (directory-file-name root))))
+
+(defun python-get-current-test-module-name ()
+  "Return fully qualified unittest name for test at point.
+Format: package.module.Class.test_method, or nil if not on a test."
+  (let* ((file (or (buffer-file-name)
+                   (user-error "Buffer is not visiting a file")))
+         (root (projectile-project-root))
+         (rel (file-relative-name file root))
+         (module (file-name-sans-extension rel))
+         (module (subst-char-in-string ?/ ?. module))
+         (defun-name (python-info-current-defun)))
+    (when defun-name
+      (format "%s.%s" module defun-name))))
+
+(defun python-run-make-test-at-point ()
+  "Run unittest for the test at point via `make test-unit-one`."
+  (interactive)
+  (let ((test (python-get-current-test-module-name))
+	(project (python-get-project-name))
+	(root (projectile-project-root)))
+    (unless test
+      (user-error "Could not determine test name at point"))
+    (unless root
+      (user-error "No projectile project root found"))
+    (compile (format "cd %s && docker run -v ./:/app -ti --network conio -e CONIO_ENV=development localhost:5000/conio_%s python -m unittest %s" (shell-quote-argument root) project test))))
+
+(with-eval-after-load 'python
+  ;; Bind keys in python-mode
+  (define-key python-mode-map (kbd "C-c t t") #'python-run-make-test-at-point))
+
 (use-package dap-mode
   :after lsp-mode
   :config
